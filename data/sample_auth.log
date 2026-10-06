@@ -1,0 +1,31 @@
+# Synthetic authentication log used for demonstration and tests.
+# Format: timestamp status=<SUCCESS|FAILED> username=<name> ip=<address>
+
+2026-10-06T08:55:00Z status=SUCCESS username=alice ip=192.0.2.10
+2026-10-06T08:56:15Z status=SUCCESS username=bob ip=192.0.2.11
+2026-10-06T08:57:30Z status=FAILED username=charlie ip=192.0.2.12
+2026-10-06T08:59:00Z status=SUCCESS username=diana ip=192.0.2.13
+
+# Brute-force pattern: five failed attempts against alice from one IP in 40 seconds.
+2026-10-06T09:00:00Z status=FAILED username=alice ip=203.0.113.50
+2026-10-06T09:00:10Z status=FAILED username=alice ip=203.0.113.50
+2026-10-06T09:00:20Z status=FAILED username=alice ip=203.0.113.50
+2026-10-06T09:00:30Z status=FAILED username=alice ip=203.0.113.50
+2026-10-06T09:00:40Z status=FAILED username=alice ip=203.0.113.50
+
+# Normal traffic between the two suspicious patterns.
+2026-10-06T09:02:00Z status=SUCCESS username=charlie ip=192.0.2.12
+2026-10-06T09:03:10Z status=FAILED username=erin ip=192.0.2.21
+2026-10-06T09:06:00Z status=SUCCESS username=frank ip=192.0.2.22
+
+# Password-spraying pattern: one IP targets five different accounts within 180 seconds.
+# Attempts are spaced far enough apart not to satisfy the default brute-force rule.
+2026-10-06T09:10:00Z status=FAILED username=alice ip=198.51.100.77
+2026-10-06T09:10:45Z status=FAILED username=bob ip=198.51.100.77
+2026-10-06T09:11:30Z status=FAILED username=charlie ip=198.51.100.77
+2026-10-06T09:12:15Z status=FAILED username=diana ip=198.51.100.77
+2026-10-06T09:13:00Z status=FAILED username=erin ip=198.51.100.77
+
+2026-10-06T09:14:30Z status=SUCCESS username=grace ip=192.0.2.30
+2026-10-06T09:15:30Z status=FAILED username=frank ip=192.0.2.31
+2026-10-06T09:18:00Z status=SUCCESS username=heidi ip=192.0.2.32
